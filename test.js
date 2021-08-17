@@ -1,4 +1,4 @@
-import typecheck from './index.js';
+import typecheck from './dist/typeok.js';
 import { equal } from 'assert';
 
 let res;
@@ -59,7 +59,7 @@ test('Should fail on incorrect types', () => {
         defined: undefined,
         function: 'notafunction'
     });
-    console.log(res);
+
     equal(res.ok, false);
     equal(res.errors.length, 7);
 });
