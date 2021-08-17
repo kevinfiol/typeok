@@ -1,0 +1,24 @@
+{
+    "name": "typeok",
+    "version": "0.1.0",
+    "repository": "kevinfiol/typeok",
+    "author": "kevinfiol",
+    "license": "MIT",
+    "description": "A tiny type-checking util.",
+    "type": "module",
+    "main": "dist/typeok.cjs",
+    "module": "dist/typeok.js",
+    "unpkg": "dist/typeok.min.js",
+    "types": "index.d.ts",
+    "umd:name": "typeok",
+    "scripts": {
+        "test": "node test.js",
+        "build": "bundt index.js"
+    },
+    "engines": {
+        "node": ">=12.x"
+    },
+    "devDependencies": {
+        "bundt": "^1.1.5"
+    }
+}
