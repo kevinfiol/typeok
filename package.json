@@ -20,5 +20,11 @@
     },
     "devDependencies": {
         "bundt": "^1.1.5"
-    }
+    },
+    "keywords": [
+        "vanillajs",
+        "types",
+        "typechecking",
+        "typechecker"
+    ]
 }
