@@ -11,6 +11,12 @@ console.log(ok); // false
 console.log(errors); // [TypeError: Expected number but got string: "notanumber"]
 ```
 
+## Install
+
+```bash
+npm install typeok
+```
+
 ## Basic Usage
 
 Pass an object where the given keys correspond to the type, and the values are the variables you'd like to typecheck. `typeok` returns an object, `{ ok: boolean, errors: TypeError[] }` for every check. Simply append an `s` when you'd like to typecheck multiple variables of the same type, for example, `strings`. Unrecognized types are ignored:
