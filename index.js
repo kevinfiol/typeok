@@ -8,34 +8,32 @@ const MAP = {
     'defined': x => x !== undefined
 };
 
-export default function(obj = {}, typeMap = {}) {
-    const result = { ok: true, errors: [] };
-    typeMap = { ...MAP, ...typeMap };
+export default function(obj = {}, map = {}) {
+    const res = { ok: true, errors: [] };
+    map = { ...MAP, ...map };
 
-    for (let origKey in obj) {
-        const isMulti = origKey.slice(-1).toUpperCase() === 'S';
-        const typeKey = isMulti ? origKey.slice(0, -1) : origKey;
+    for (let oKey in obj) {
+        const
+            isMulti = oKey.slice(-1).toUpperCase() === 'S',
+            key = isMulti ? oKey.slice(0, -1) : oKey;
 
-        if (typeKey in typeMap) {
-            const fn = typeMap[typeKey];
-            const x = obj[origKey];
+        if (key in map) {
+            const fn = map[key], x = obj[oKey];
 
             if (isMulti) {
                 if (!MAP.array(x)) continue;
                 for (let i = 0, len = x.length; i < len; i++) {
-                    if (!fn(x[i])) addError(result, typeKey, x[i]);
+                    if (!fn(x[i])) addError(res, key, x[i]);
                 }
-            } else if (!fn(x)) {
-                addError(result, typeKey, x);
-            }
+            } else if (!fn(x)) addError(res, key, x);
         }
     }
 
-    return result;
+    return res;
 }
 
-function addError(result, type, x) {
-    if (result.ok) result.ok = false;
+function addError(res, type, x) {
+    if (res.ok) res.ok = false;
     const str = !MAP.defined(x) ? 'undefined' : JSON.stringify(x);
-    result.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
+    res.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
 }

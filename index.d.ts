@@ -5,4 +5,4 @@ type TypecheckResult = {
 
 type TypecheckMethod = (...args: any[]) => boolean;
 
-export default function (obj: Record<string, any>, typeMap?: Record<string, TypecheckMethod>): TypecheckResult;
+export default function (obj: Record<string, any>, map?: Record<string, TypecheckMethod>): TypecheckResult;
