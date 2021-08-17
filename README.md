@@ -62,4 +62,4 @@ console.log(errors); // [TypeError: Expected MinimumAge but got number: 20]
 
 ## Credits
 
-Check out [jty](https://github.com/userpixel/jty) by [Alex Ewerlöf ](https://github.com/userpixel), which was the original inspiration for this utility.
+Check out [jty](https://github.com/userpixel/jty) by [Alex Ewerlöf](https://github.com/userpixel), which was the original inspiration for this utility.
