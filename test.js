@@ -83,8 +83,59 @@ test('Should fail testing multiples type keys', () => {
     equal(res.errors.length, 7);
 });
 
+test('Test type map overriding', () => {
+    res = typecheck({
+        number: 'notanumber'
+    }, {
+        number: x => typeof x === 'string'
+    });
+
+    equal(res.ok, true);
+    equal(res.errors.length, 0);
+});
+
+test('Test type map overriding #2', () => {
+    let map = {
+        number: x => typeof x === 'number' && x >= 20,
+        ConstrainedNumber: x => Number.isFinite(x) && x > 10 && x < 15
+    };
+
+    res = typecheck({ number: 20 }, map);
+
+    equal(res.ok, true);
+    equal(res.errors.length, 0);
+
+    res = typecheck({ number: 19, string: 'thisisastring' }, map);
+
+    equal(res.ok, false);
+    equal(res.errors.length, 1);
+
+    res = typecheck({ ConstrainedNumber: 2 }, map);
+    equal(res.ok, false);
+    equal(res.errors.length, 1);
+
+    res = typecheck({ ConstrainedNumber: 11 }, map);
+    equal(res.ok, true);
+    equal(res.errors.length, 0);
+
+    res = typecheck({ ConstrainedNumber: 21, number: 19 }, map);
+    equal(res.ok, false);
+    equal(res.errors.length, 2);
+});
+
+test('Test type map override #3', () => {
+    const overrides = { MinimumAge: x => Number.isFinite(x) && x >= 21 };
+    const customTypecheck = obj => typecheck(obj, overrides);
+
+    res = customTypecheck({ MinimumAge: 20 });
+    equal(res.ok, false);
+    equal(res.errors.length, 1);
+});
+
 console.log(`Tests Passed ✓: ${passes}`);
 console.warn(`Tests Failed ✗: ${failures}`);
+
+if (failures.length) throw Error(`Tests failed with ${failures.length} failing tests.`);
 
 function test(label, cb) {
     try {
@@ -92,6 +143,6 @@ function test(label, cb) {
         passes += 1;
     } catch(e) {
         failures += 1;
-        console.error(`Failed Test: "${label}"`)
+        console.error(`Failed Test: "${label}", at ${e.message}`)
     }
 }
