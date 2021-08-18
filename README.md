@@ -4,10 +4,9 @@ A tiny type-checking utility.
 
 ```js
 import typecheck from 'typeok';
-const { ok, errors } = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
 
-console.log(ok); // false
-console.log(errors); // [TypeError: Expected number but got string: "notanumber"]
+const result = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
+console.log(result); // { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
 ```
 
 ## Install
@@ -68,10 +67,9 @@ import typeok from 'typeok';
 
 const overrides = { MinimumAge: x => Number.isFinite(x) && x >= 21 };
 const typecheck = obj => typeok(obj, overrides);
-const { ok, errors } = typecheck({ MinimumAge: 20 });
 
-console.log(ok); // false
-console.log(errors); // [TypeError: Expected MinimumAge but got number: 20]
+const result = typecheck({ MinimumAge: 20 });
+console.log(result); // { ok: false, errors: [TypeError: Expected MinimumAge but got number: 20] }
 ```
 
 ## Credits
