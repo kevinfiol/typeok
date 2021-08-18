@@ -9,16 +9,16 @@ const MAP = {
 };
 
 export default function(obj = {}, map = {}) {
-    const res = { ok: true, errors: [] };
+    let res = { ok: true, errors: [] };
     map = { ...MAP, ...map };
 
     for (let oKey in obj) {
-        const
+        let
             isMulti = oKey.slice(-1).toUpperCase() === 'S',
             key = isMulti ? oKey.slice(0, -1) : oKey;
 
         if (key in map) {
-            const fn = map[key], x = obj[oKey];
+            let fn = map[key], x = obj[oKey];
 
             if (isMulti) {
                 if (MAP.array(x)) x.map(v => fn(v) || addError(res, key, v));
@@ -31,6 +31,6 @@ export default function(obj = {}, map = {}) {
 
 function addError(res, type, x) {
     if (res.ok) res.ok = false;
-    const str = MAP.defined(x) ? JSON.stringify(x) : 'undefined';
+    let str = MAP.defined(x) ? JSON.stringify(x) : 'undefined';
     res.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
 }
