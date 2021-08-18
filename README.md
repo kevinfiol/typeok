@@ -5,7 +5,7 @@ A tiny type-checking utility.
 ```js
 import typecheck from 'typeok';
 
-const result = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
+let result = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
 console.log(result); // { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
 ```
 
@@ -28,7 +28,7 @@ Pass an object to the typecheck function where the given keys correspond to the 
 `typeok` returns an object, `{ ok: boolean, errors: TypeError[] }` for every check.
 
 ```js
-const result = typecheck({
+let result = typecheck({
     object: {},
     number: 1,
     strings: ['one', 'two'],
@@ -55,7 +55,7 @@ console.log(result); // { ok: true, errors: [] }
 You can pass an object as a second argument to override or extend the built-in typecheckers.
 
 ```js
-const { ok, errors } = typecheck({ object: [] }, {
+let result = typecheck({ object: [] }, {
     object: x => typeof x === 'object' && !Array.isArray(x)
 });
 ```
@@ -68,7 +68,7 @@ import typeok from 'typeok';
 const overrides = { MinimumAge: x => Number.isFinite(x) && x >= 21 };
 const typecheck = obj => typeok(obj, overrides);
 
-const result = typecheck({ MinimumAge: 20 });
+let result = typecheck({ MinimumAge: 20 });
 console.log(result); // { ok: false, errors: [TypeError: Expected MinimumAge but got number: 20] }
 ```
 
