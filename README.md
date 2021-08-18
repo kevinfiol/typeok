@@ -4,7 +4,6 @@ A tiny type-checking utility.
 
 ```js
 import typecheck from 'typeok';
-
 const { ok, errors } = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
 
 console.log(ok); // false
@@ -19,20 +18,20 @@ npm install typeok
 
 ## Basic Usage
 
-Pass an object where the given keys correspond to the type, and the values are the variables you'd like to typecheck. `typeok` returns an object, `{ ok: boolean, errors: TypeError[] }` for every check. Simply append an `s` when you'd like to typecheck multiple variables of the same type, for example, `strings`. Unrecognized types are ignored:
+Pass an object where the given keys correspond to the types, and the values are the variables you'd like to typecheck. `typeok` returns an object, `{ ok: boolean, errors: TypeError[] }` for every check. Simply append an `s` to a key string when you'd like to typecheck multiple variables of the same type, for example, `strings` or `objects`. Unrecognized types are ignored.
 
 ```js
 const result = typecheck({
     object: {},
     number: 1,
     strings: ['one', 'two'],
-    array: []
+    arrays: [[1, 2], ['mixed', {}, null]]
 })
 
 console.log(result); // { ok: true, errors: [] }
 ```
 
-`typeok` uses regular `typeof` checks under the hood, and never throws. You can use the [built-in type-checking methods](https://github.com/kevinfiol/typeok/blob/master/index.js#L1) or provide your own. The built-in methods include checks for:
+`typeok` uses regular `typeof` checks under the hood, and never throws. You can use the [built-in typecheckers](https://github.com/kevinfiol/typeok/blob/master/index.js#L1) or provide your own. The built-in typecheckers include checks for:
 
 * `number`
 * `array`
@@ -52,7 +51,7 @@ You can pass an object as a second argument to override or extend the built-in t
 const { ok, errors } = typecheck({ object: [] }, { object: x => typeof x === 'object' && !Array.isArray(x) });
 ```
 
-It may get tedious passing the same overrides every single time you need to check your variables, in which case, you can easily wrap the default `typeok` function
+It may get tedious passing the same overrides every single time you need to check your variables, in which case, you can easily wrap the default `typeok` function:
 
 ```js
 import typeok from 'typeok';
