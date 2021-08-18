@@ -1,6 +1,6 @@
 {
     "name": "typeok",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "repository": "kevinfiol/typeok",
     "author": "kevinfiol",
     "license": "MIT",
@@ -18,6 +18,10 @@
     "engines": {
         "node": ">=12.x"
     },
+    "files": [
+        "*.d.ts",
+        "dist"
+    ],
     "devDependencies": {
         "bundt": "^1.1.5"
     },
