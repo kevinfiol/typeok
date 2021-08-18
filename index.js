@@ -21,11 +21,8 @@ export default function(obj = {}, map = {}) {
             const fn = map[key], x = obj[oKey];
 
             if (isMulti) {
-                if (!MAP.array(x)) continue;
-                for (let i = 0, len = x.length; i < len; i++) {
-                    if (!fn(x[i])) addError(res, key, x[i]);
-                }
-            } else if (!fn(x)) addError(res, key, x);
+                if (MAP.array(x)) x.map(v => fn(v) || addError(res, key, v));
+            } else fn(x) || addError(res, key, x);
         }
     }
 
@@ -34,6 +31,6 @@ export default function(obj = {}, map = {}) {
 
 function addError(res, type, x) {
     if (res.ok) res.ok = false;
-    const str = !MAP.defined(x) ? 'undefined' : JSON.stringify(x);
+    const str = MAP.defined(x) ? JSON.stringify(x) : 'undefined';
     res.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
 }
