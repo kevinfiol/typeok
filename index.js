@@ -21,8 +21,8 @@ export default function(obj = {}, map = {}) {
             let fn = map[key], x = obj[oKey];
 
             if (isMulti) {
-                if (MAP.array(x)) x.map(v => fn(v) || addError(res, key, v));
-            } else fn(x) || addError(res, key, x);
+                if (MAP.array(x)) x.map(v => fn(v, MAP) || addError(res, key, v));
+            } else fn(x, MAP) || addError(res, key, x);
         }
     }
 

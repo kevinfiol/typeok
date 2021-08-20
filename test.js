@@ -132,6 +132,31 @@ test('Test type map override #3', () => {
     equal(res.errors.length, 1);
 });
 
+test('Test override with built-in typecheckers', () => {
+    res = typecheck({ number: 5 }, {
+        number: (x, is) => is.number(x)
+    });
+
+    equal(res.ok, true);
+    equal(res.errors.length, 0);
+
+    res = typecheck({ string: 2, object: [] }, {
+        string: (x, is) => is.string(x),
+        object: (x, is) => is.object(x)
+    });
+
+    equal(res.ok, false);
+    equal(res.errors.length, 1);
+
+    res = typecheck({ MinVals: [5, 10], Records: [[], {}, []] }, {
+        MinVal: (x, is) => is.number(x) && x >= 6,
+        Record: (x, is) => is.object(x) && !Array.isArray(x)
+    });
+
+    equal(res.ok, false);
+    equal(res.errors.length, 3);
+})
+
 console.log(`Tests Passed ✓: ${passes}`);
 console.warn(`Tests Failed ✗: ${failures}`);
 

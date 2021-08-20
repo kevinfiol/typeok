@@ -3,10 +3,10 @@
 A tiny type-checking utility.
 
 ```js
-import typecheck from 'typeok';
+import typeok from 'typeok';
 
-let result = typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
-console.log(result); // { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
+typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
+// { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
 ```
 
 ## Install
@@ -28,14 +28,14 @@ Pass an object to the typecheck function where the given keys correspond to the 
 `typeok` returns an object, `{ ok: boolean, errors: TypeError[] }` for every check.
 
 ```js
-let result = typecheck({
+typecheck({
     object: {},
     number: 1,
     strings: ['one', 'two'],
     arrays: [[1, 2], ['mixed', {}, null]]
 });
 
-console.log(result); // { ok: true, errors: [] }
+// { ok: true, errors: [] }
 ```
 
 `typeok` uses regular `typeof` checks under the hood, and never throws. You can use the [built-in typecheckers](https://github.com/kevinfiol/typeok/blob/master/index.js#L1) or provide your own. The built-in typecheckers include checks for:
@@ -55,9 +55,15 @@ console.log(result); // { ok: true, errors: [] }
 You can pass an object as a second argument to override or extend the built-in typecheckers.
 
 ```js
-let result = typecheck({ object: [] }, {
-    object: x => typeof x === 'object' && !Array.isArray(x)
-});
+typecheck({ object: [] }, { object: x => typeof x === 'object' && !Array.isArray(x) });
+// { ok: false, errors: [TypeError: Expected object but got object: []] }
+```
+
+You may want to piggyback on the built-in typecheckers in your own custom typecheckers, in which case, the built-in type-map is provided as a second argument for all typecheckers:
+
+```js
+typecheck({ object: [] }, { object: (x, is) => is.object(x) && !Array.isArray(x) });
+// { ok: false, errors: [TypeError: Expected object but got object: []] }
 ```
 
 It may get tedious passing the same overrides every single time you need to check your variables, in which case, you can easily wrap the default `typeok` function:
@@ -65,11 +71,11 @@ It may get tedious passing the same overrides every single time you need to chec
 ```js
 import typeok from 'typeok';
 
-const overrides = { MinimumAge: x => Number.isFinite(x) && x >= 21 };
+const overrides = { MinimumAge: (x, is) => is.number(x) && x >= 21 };
 const typecheck = obj => typeok(obj, overrides);
 
-let result = typecheck({ MinimumAge: 20 });
-console.log(result); // { ok: false, errors: [TypeError: Expected MinimumAge but got number: 20] }
+typecheck({ MinimumAge: 20 });
+// { ok: false, errors: [TypeError: Expected MinimumAge but got number: 20] }
 ```
 
 ## Credits
