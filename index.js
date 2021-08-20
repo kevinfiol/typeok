@@ -1,4 +1,4 @@
-const MAP = {
+let MAP = {
     'number': x => Number.isFinite(x),
     'array': x => Array.isArray(x),
     'boolean': x => typeof x === 'boolean',
