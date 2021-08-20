@@ -3,7 +3,7 @@
 A tiny type-checking utility.
 
 ```js
-import typeok from 'typeok';
+import typecheck from 'typeok';
 
 typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
 // { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
@@ -20,6 +20,8 @@ Browser
 ```html
 <script src="https://unpkg.com/typeok/dist/typeok.min.js"></script>
 ```
+
+In the browser context, the default function name is `typeok`. [Try in the browser with Flems](https://flems.io/#0=N4IgZglgNgpgziAXAbVAOwIYFsZJAOgAsAXLKEAGhAGMB7NYmBvEAXwvW10QICsEqdBk2J5YxAAQAneAG4AOmkUB6ZRIBCGOBGoSAqnAwBzGIplwJAXgnEAngAcYtANYAKYIoleJtAEa8YamJECWB2T280AFcsXxgpEIBGCgivOGIpCDQjOBDkAHJ6GHyKCXziAHdafIBdFLRvCQwpKQxbXIlkZGSJACY6zvysCAAPGAATEtD2CWioKBqaxVYASgUlNCE4Wlh8KFojV3yABS04eBCp8zXFFTUAFQcYAFpqQkDnCQB5ADd4zPG8DM8CsNieLncEWisXiIQArMtSh4GrMYnEEhIRlYAHwSAByaPi+AgcAAYlkIIxXCMVhIAGR0zESXEItCrdaKLY7GB7A5HUkYaAWCqUwgSRISR6OACiLVoGKu8BuG1UEgA6q17PYskYwY4XJz6OkJFhbL9-hBARZrMivAA1DBQS0EmEY6mlEm0yy4kn4aHo6m0hlM3G9emMrEAHgkABZlhzNkbJHZHG8PqC-LwcXqnG5M6VTeaWpalQnzKCU4F3tQ3LaJA6neMXeiOgU0LRJBhUa6pgBmUpwpZs5WGtDbXb7Q75AVCiQi4hisNSmCyqTyjqKuBrSggc6wIIQI14XsABkQvbYHBAmBweHw1DgAho9EYzB4bDqICdaGcCBQnFvHhKxcHcoikcgeBIYh7FyVQojQexnCMe9aCwZRgOcAABE98BjfAT2UcYSWIdDwWcfBhjQfB+B3Ss8DgahMnsURWBqVggA);
 
 ## Usage
 
