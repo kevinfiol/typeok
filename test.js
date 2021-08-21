@@ -160,7 +160,8 @@ test('Test override with built-in typecheckers', () => {
 console.log(`Tests Passed ✓: ${passes}`);
 console.warn(`Tests Failed ✗: ${failures}`);
 
-if (failures.length) throw Error(`Tests failed with ${failures.length} failing tests.`);
+if (failures) logFail(`\n✗ Tests failed with ${failures} failing tests.`);
+else logPass(`\n✓ All ${passes} tests passed.`)
 
 function test(label, cb) {
     try {
@@ -168,6 +169,14 @@ function test(label, cb) {
         passes += 1;
     } catch(e) {
         failures += 1;
-        console.error(`Failed Test: "${label}", at ${e.message}`)
+        logFail(`Failed Test: "${label}", at ${e.message}\n`)
     }
+}
+
+function logFail(str) {
+    console.error('\x1b[41m%s\x1b[0m', str);
+}
+
+function logPass(str) {
+    console.log('\x1b[42m%s\x1b[0m', str);
 }
