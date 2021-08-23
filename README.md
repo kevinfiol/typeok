@@ -17,7 +17,7 @@ npm install typeok
 ```
 
 Deno
-```bash
+```js
 import typecheck from 'https://deno.land/x/typeok/index.js';
 ```
 
