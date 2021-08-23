@@ -26,7 +26,14 @@ Browser
 <script src="https://unpkg.com/typeok/dist/typeok.min.js"></script>
 ```
 
-In the browser context, the default function name is `typeok`.
+In the browser context, the default export name is `typeok`.
+
+Browser (ESM)
+```html
+<script type="module">
+  import typecheck from 'https://unpkg.com/typeok/dist/typeok.js';
+</script>
+```
 
 [Try in Flems](https://flems.io/#0=N4IgtglgJlA2CmIBcBGADGgNCAZhBAzsgNqgB2AhmIkiAHQAWALmLCNgMYD2ZT8vyECAC+mclRr0AVkU48+A2giYACAE7wCAbgA6ZPQHoDKgEIUCEDioCqBCgHN4ejQRUBeFUwCeAB3hcAawAKYD0VcJUuACMpeA4mJBVgUTCIsgBXMCj4NUSUTFTwgiY1CDJ7AkTiAHIeeGrMFWqmAHcuaoBdArIIlQo1NQovSpViYnyVACYu0erIAA94KAak0RUM2FgOjr1hAEpdfTJuMgIuBDpYLnsg6oAFcwJNRJWXA71DYwAVX3gAWg4DDiARUAHkAG45UpQTTOTTuTy-QIhVIZLI5RIAVl2jVCPXWmWyuRU83cAD4VAA5Qk5OgQAgAMTKED4QXmexUADJOSSVBTsWR9oc9CczhcrjdqgyKPhXC0WQwVCgVD8-ABRAZcYmvTTvI5GFQAdUGPh8ZXsiL8gRFPGKKjAXghUOg8I8ePCADUKLBoNT0cS2Y16Ry3BT6XQ0US2RzubyKZMuTzSQAeFQAFl2wuOttU3j8gOBCOiUnJlv8wWLjQdToGLoIerhrg8ebiQI4wXdKi9PqgfqJIxqZC4qgoBP9KwAzI1MTtBQ3s6dzvBLtdbtLZSp5UxFQnVfANWotSMdfWtOwQE8EPEILbBBO0EgJyIxCBKNRBHQOARZCATgomIIIhdCAPpkAERBIKQr4SIILaBOe6RqGwtDMEwPiVEY6RkD4AT2J+XBgAYcEBAAAmgdBpnQaAGFA9JMERSIBHQkBkHQMjni2ggEBwpQ+ABwgdMIQA).
 
