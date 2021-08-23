@@ -16,6 +16,11 @@ Node
 npm install typeok
 ```
 
+Deno
+```bash
+import typecheck from 'https://deno.land/x/typeok/index.js';
+```
+
 Browser
 ```html
 <script src="https://unpkg.com/typeok/dist/typeok.min.js"></script>
