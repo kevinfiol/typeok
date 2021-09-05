@@ -1,6 +1,6 @@
 let MAP = {
-    'number': x => Number.isFinite(x),
-    'array': x => Array.isArray(x),
+    'number': Number.isFinite,
+    'array': Array.isArray,
     'boolean': x => typeof x == 'boolean',
     'object': x => x != null && typeof x == 'object',
     'string': x => typeof x == 'string',
@@ -8,13 +8,13 @@ let MAP = {
     'defined': x => x != undefined
 };
 
-export default function(obj = {}, map = {}) {
+export default function(obj, map = {}) {
     let res = { ok: true, errors: [] };
     map = { ...MAP, ...map };
 
     for (let oKey in obj) {
         let
-            isMulti = oKey.slice(-1).toUpperCase() === 'S',
+            isMulti = oKey.slice(-1) == 's',
             key = isMulti ? oKey.slice(0, -1) : oKey;
 
         if (key in map) {
