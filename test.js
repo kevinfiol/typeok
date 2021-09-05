@@ -1,12 +1,39 @@
-import typecheck from './dist/typeok.js';
+import { check, schema } from './dist/typeok.js';
 import { equal } from 'assert';
 
 let res;
 let passes = 0;
 let failures = 0;
 
+// console.log(typeok({ number: 'string' }))
+
+// console.log(schema({
+//     name: 'string',
+//     age: 'number',
+//     creds: {
+//         ss: 'number',
+//         dog: {
+//             name: 'number',
+//             info: {
+//                 age: 'number'
+//             }
+//         }
+//     },
+//     info: 'object'
+// })({
+//     name: 'kevin',
+//     age: 29,
+//     creds: {
+//         ss: 'notanumber',
+//         dog: {
+//             name: 'maggie'
+//         }
+//     },
+//     info: {}
+// }));
+
 test('Should pass with right types', () => {
-    res = typecheck({
+    res = check({
         number: 1,
         string: 'foo',
         boolean: true,
@@ -21,7 +48,7 @@ test('Should pass with right types', () => {
 });
 
 test('Should pass testing multiples type keys', () => {
-    res = typecheck({
+    res = check({
         numbers: [1,2,3],
         strings: ['one', 'two', 'three'],
         booleans: [true, true, false],
@@ -50,7 +77,7 @@ test('Should pass testing multiples type keys', () => {
 });
 
 test('Should fail on incorrect types', () => {
-    res = typecheck({
+    res = check({
         number: 'notanumber',
         string: 2,
         boolean: [],
@@ -65,7 +92,7 @@ test('Should fail on incorrect types', () => {
 });
 
 test('Should fail testing multiples type keys', () => {
-    res = typecheck({
+    res = check({
         numbers: [1, 'string', 3],
         strings: ['one', 'two', 'three', 15],
         booleans: [true, 2],
@@ -84,7 +111,7 @@ test('Should fail testing multiples type keys', () => {
 });
 
 test('Test type map overriding', () => {
-    res = typecheck({
+    res = check({
         number: 'notanumber'
     }, {
         number: x => typeof x === 'string'
@@ -100,32 +127,32 @@ test('Test type map overriding #2', () => {
         ConstrainedNumber: x => Number.isFinite(x) && x > 10 && x < 15
     };
 
-    res = typecheck({ number: 20 }, map);
+    res = check({ number: 20 }, map);
 
     equal(res.ok, true);
     equal(res.errors.length, 0);
 
-    res = typecheck({ number: 19, string: 'thisisastring' }, map);
+    res = check({ number: 19, string: 'thisisastring' }, map);
 
     equal(res.ok, false);
     equal(res.errors.length, 1);
 
-    res = typecheck({ ConstrainedNumber: 2 }, map);
+    res = check({ ConstrainedNumber: 2 }, map);
     equal(res.ok, false);
     equal(res.errors.length, 1);
 
-    res = typecheck({ ConstrainedNumber: 11 }, map);
+    res = check({ ConstrainedNumber: 11 }, map);
     equal(res.ok, true);
     equal(res.errors.length, 0);
 
-    res = typecheck({ ConstrainedNumber: 21, number: 19 }, map);
+    res = check({ ConstrainedNumber: 21, number: 19 }, map);
     equal(res.ok, false);
     equal(res.errors.length, 2);
 });
 
 test('Test type map override #3', () => {
     const overrides = { MinimumAge: x => Number.isFinite(x) && x >= 21 };
-    const customTypecheck = obj => typecheck(obj, overrides);
+    const customTypecheck = obj => check(obj, overrides);
 
     res = customTypecheck({ MinimumAge: 20 });
     equal(res.ok, false);
@@ -133,14 +160,14 @@ test('Test type map override #3', () => {
 });
 
 test('Test override with built-in typecheckers', () => {
-    res = typecheck({ number: 5 }, {
+    res = check({ number: 5 }, {
         number: (x, is) => is.number(x)
     });
 
     equal(res.ok, true);
     equal(res.errors.length, 0);
 
-    res = typecheck({ string: 2, object: [] }, {
+    res = check({ string: 2, object: [] }, {
         string: (x, is) => is.string(x),
         object: (x, is) => is.object(x)
     });
@@ -148,7 +175,7 @@ test('Test override with built-in typecheckers', () => {
     equal(res.ok, false);
     equal(res.errors.length, 1);
 
-    res = typecheck({ MinVals: [5, 10], Records: [[], {}, []] }, {
+    res = check({ MinVals: [5, 10], Records: [[], {}, []] }, {
         MinVal: (x, is) => is.number(x) && x >= 6,
         Record: (x, is) => is.object(x) && !Array.isArray(x)
     });

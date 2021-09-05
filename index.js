@@ -1,14 +1,14 @@
 let MAP = {
     'number': x => Number.isFinite(x),
     'array': x => Array.isArray(x),
-    'boolean': x => typeof x === 'boolean',
-    'object': x => x !== null && typeof x === 'object',
-    'string': x => typeof x === 'string',
-    'function': x => typeof x === 'function',
-    'defined': x => x !== undefined
+    'boolean': x => typeof x == 'boolean',
+    'object': x => x != null && typeof x == 'object',
+    'string': x => typeof x == 'string',
+    'function': x => typeof x == 'function',
+    'defined': x => x != undefined
 };
 
-export default function(obj = {}, map = {}) {
+export function check(obj = {}, map = {}) {
     let res = { ok: true, errors: [] };
     map = { ...MAP, ...map };
 
@@ -29,8 +29,22 @@ export default function(obj = {}, map = {}) {
     return res;
 }
 
-function addError(res, type, x) {
+export function schema(schema, map = {}) {
+    return obj => validate(schema, obj, { ok: true, errors: [] }, { ...MAP, ...map });
+}
+
+function validate(schema, obj, res, map, name) {
+    for (let [key, type] of Object.entries(schema)) {
+        name = name ? name+'.'+key : key;
+        if (!(key in obj)) addError(res, 'defined', obj[key], name);
+        else if (MAP.string(type)) map[type](obj[key]) || addError(res, type, obj[key], name);
+        else if (MAP.object(type)) validate(schema[key], obj[key], res, map, name);
+    }
+
+    return res;
+};
+
+function addError(res, type, x, name) {
     if (res.ok) res.ok = false;
-    let str = MAP.defined(x) ? JSON.stringify(x) : 'undefined';
-    res.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
+    res.errors.push(TypeError(`Expected ${type}, got: ${x}${name ? ` (${name})`: ''}`));
 }
