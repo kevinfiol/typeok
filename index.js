@@ -1,11 +1,11 @@
 let MAP = {
     'number': x => Number.isFinite(x),
     'array': x => Array.isArray(x),
-    'boolean': x => typeof x === 'boolean',
-    'object': x => x !== null && typeof x === 'object',
-    'string': x => typeof x === 'string',
-    'function': x => typeof x === 'function',
-    'defined': x => x !== undefined
+    'boolean': x => typeof x == 'boolean',
+    'object': x => x != null && typeof x == 'object',
+    'string': x => typeof x == 'string',
+    'function': x => typeof x == 'function',
+    'defined': x => x != undefined
 };
 
 export default function(obj = {}, map = {}) {
@@ -31,6 +31,5 @@ export default function(obj = {}, map = {}) {
 
 function addError(res, type, x) {
     if (res.ok) res.ok = false;
-    let str = MAP.defined(x) ? JSON.stringify(x) : 'undefined';
-    res.errors.push(TypeError(`Expected ${type} but got ${typeof x}: ${str.length >= 25 ? str.slice(0, 25) + '...' : str}`));
+    res.errors.push(TypeError(`Expected ${type}, got: ${x}`));
 }

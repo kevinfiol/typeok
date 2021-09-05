@@ -6,7 +6,7 @@ A tiny type-checking utility.
 import typecheck from 'typeok';
 
 typecheck({ numbers: [1, 2, 'notanumber'], string: 'typeok' });
-// { ok: false, errors: [TypeError: Expected number but got string: "notanumber"] }
+// { ok: false, errors: [TypeError: Expected number, got: notanumber] }
 ```
 
 ## Install
@@ -72,17 +72,17 @@ You can pass an object as a second argument to override or extend the built-in t
 
 ```js
 typecheck({ object: [] }, { object: x => typeof x === 'object' && !Array.isArray(x) });
-// { ok: false, errors: [TypeError: Expected object but got object: []] }
+// { ok: false, errors: [TypeError: Expected object, got: []] }
 ```
 
 You may want to piggyback on the built-in typecheckers in your own custom typecheckers, in which case, the built-in type-map is provided as a second argument for all typecheckers:
 
 ```js
 typecheck({ object: [] }, { object: (x, is) => is.object(x) && !Array.isArray(x) });
-// { ok: false, errors: [TypeError: Expected object but got object: []] }
+// { ok: false, errors: [TypeError: Expected object, got: []] }
 ```
 
-It may get tedious passing the same overrides every single time you need to check your variables, in which case, you can easily wrap the default `typeok` function:
+It may get tedious passing the same overrides every single time you need to check your variables. A simple way around this is wrapping the default `typeok` function:
 
 ```js
 import typeok from 'typeok';
@@ -91,7 +91,7 @@ const overrides = { MinimumAge: (x, is) => is.number(x) && x >= 21 };
 const typecheck = obj => typeok(obj, overrides);
 
 typecheck({ MinimumAge: 20 });
-// { ok: false, errors: [TypeError: Expected MinimumAge but got number: 20] }
+// { ok: false, errors: [TypeError: Expected MinimumAge, got: 20] }
 ```
 
 ## Credits
