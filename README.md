@@ -1,6 +1,6 @@
 # typeok
 
-A tiny type-checking utility.
+A [tiny](https://bundlephobia.com/package/typeok) type-checking utility.
 
 ```js
 import typecheck from 'typeok';
